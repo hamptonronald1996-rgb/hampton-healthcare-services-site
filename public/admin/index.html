@@ -1,0 +1,77 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Hampton Healthcare Admin</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body { font-family: Arial, sans-serif; background:#f6f8fb; margin:0; color:#17324d; }
+    header { background:#12395a; color:white; padding:24px; }
+    main { max-width:1100px; margin:0 auto; padding:24px; }
+    .box,.card { background:white; border-radius:16px; padding:20px; box-shadow:0 10px 30px rgba(0,0,0,.08); margin-bottom:16px; }
+    input,button { padding:12px; border-radius:10px; border:1px solid #d8dee8; font-size:16px; }
+    button { background:#d4af37; color:#102b44; font-weight:700; cursor:pointer; }
+    .grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; }
+    .label { font-size:12px; color:#617186; text-transform:uppercase; font-weight:700; }
+    .value { margin-bottom:10px; word-break:break-word; }
+    .type { display:inline-block; background:#e8f4f5; color:#1c6b73; padding:6px 10px; border-radius:999px; font-weight:700; font-size:13px; margin-bottom:10px; }
+    @media(max-width:700px){ .grid{grid-template-columns:1fr;} }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Hampton Healthcare Admin</h1>
+    <p>Client requests and caregiver applications</p>
+  </header>
+  <main>
+    <section class="box">
+      <h2>Admin Login</h2>
+      <input id="password" type="password" placeholder="Admin password" />
+      <button onclick="loadSubmissions()">View Submissions</button>
+      <p id="status"></p>
+    </section>
+    <section id="results"></section>
+  </main>
+
+  <script>
+    async function loadSubmissions() {
+      const password = document.getElementById("password").value;
+      const status = document.getElementById("status");
+      const results = document.getElementById("results");
+
+      status.textContent = "Loading...";
+      results.innerHTML = "";
+
+      const res = await fetch("/api/admin", {
+        headers: { "x-admin-password": password }
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        status.textContent = data.error || "Could not load submissions.";
+        return;
+      }
+
+      status.textContent = `Loaded ${data.submissions.length} submission(s).`;
+
+      results.innerHTML = data.submissions.map(item => `
+        <div class="card">
+          <span class="type">${item.type === "caregiver_application" ? "Caregiver Application" : "Care Request"}</span>
+          <div class="grid">
+            <div><div class="label">Name</div><div class="value">${item.full_name || ""}</div></div>
+            <div><div class="label">Phone</div><div class="value">${item.phone || ""}</div></div>
+            <div><div class="label">Email</div><div class="value">${item.email || ""}</div></div>
+            <div><div class="label">Created</div><div class="value">${new Date(item.created_at).toLocaleString()}</div></div>
+            <div><div class="label">Service Needed</div><div class="value">${item.service_needed || ""}</div></div>
+            <div><div class="label">Preferred Start</div><div class="value">${item.preferred_start_date || ""}</div></div>
+            <div><div class="label">Experience</div><div class="value">${item.experience || ""}</div></div>
+            <div><div class="label">Certifications</div><div class="value">${item.certifications || ""}</div></div>
+          </div>
+          <div><div class="label">Message</div><div class="value">${item.message || ""}</div></div>
+        </div>
+      `).join("");
+    }
+  </script>
+</body>
+</html>

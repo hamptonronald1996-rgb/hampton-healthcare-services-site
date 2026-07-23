@@ -1,0 +1,19 @@
+<svg width="620" height="188" viewBox="0 0 620 188" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <g transform="translate(0 6) scale(.34)">
+    <path d="M253 112C176 26 50 76 58 194c5 76 86 151 193 234 108-83 189-158 194-234 8-118-118-168-192-82z" stroke="#092e63" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M256 112C334 25 460 76 452 194c-5 76-86 151-196 234" stroke="#c9961a" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M162 243l94-83 94 83" stroke="#092e63" stroke-width="22" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M190 244v95h132v-95" stroke="#092e63" stroke-width="18" stroke-linecap="round"/>
+    <path d="M238 215h18v18h-18v-18zm30 0h18v18h-18v-18zm-30 30h18v18h-18v-18zm30 0h18v18h-18v-18z" fill="#092e63"/>
+    <circle cx="211" cy="288" r="24" fill="#092e63"/>
+    <path d="M170 373c9-54 77-58 91-8 13-50 82-47 91 8" stroke="#092e63" stroke-width="26" stroke-linecap="round"/>
+    <circle cx="305" cy="303" r="21" fill="#c9961a"/>
+    <path d="M260 366c10-42 65-44 80-5" stroke="#c9961a" stroke-width="24" stroke-linecap="round"/>
+    <path d="M131 384c72 35 168 38 250 0" stroke="#092e63" stroke-width="31" stroke-linecap="round"/>
+  </g>
+  <text x="180" y="70" font-family="Georgia, 'Times New Roman', serif" font-size="54" letter-spacing="2" fill="#092e63">HAMPTON</text>
+  <line x1="181" y1="90" x2="218" y2="90" stroke="#c9961a" stroke-width="3"/>
+  <text x="226" y="98" font-family="Arial, sans-serif" font-size="22" font-weight="700" letter-spacing="4" fill="#c9961a">HEALTHCARE SERVICES</text>
+  <line x1="535" y1="90" x2="578" y2="90" stroke="#c9961a" stroke-width="3"/>
+  <text x="183" y="125" font-family="Arial, sans-serif" font-size="10" font-weight="800" letter-spacing="1.8" fill="#092e63">COMPASSIONATE CARE. TRUSTED SUPPORT. BETTER LIVING.</text>
+</svg>
