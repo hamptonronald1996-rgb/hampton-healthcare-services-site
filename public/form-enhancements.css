@@ -1,0 +1,1 @@
+.form-wide{grid-column:1/-1}.intake-form input[type=file]{padding:12px;background:#fff}.intake-form label small{display:block;margin-top:6px;color:#5f6d7d;font-weight:500}.intake-form .form-grid{align-items:start}.intake-form textarea{resize:vertical}.intake-form select{min-height:52px}@media(max-width:720px){.form-wide{grid-column:auto}}
