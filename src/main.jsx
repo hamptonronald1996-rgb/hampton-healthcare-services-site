@@ -32,7 +32,7 @@ const services = [
   [UsersRound, "Companion Care", "Conversation, engagement, supervision, and dependable support that reduces isolation."],
   [Home, "Homemaker Support", "Light housekeeping, laundry, meal preparation, and help maintaining a comfortable home."],
   [ClipboardCheck, "Medication Reminders", "Routine reminders and observation support to help clients stay on schedule."],
-  [Clock3, "Respite Care", "Flexible relief for family caregivers who need time to rest, work, or handle other responsibilities."],
+  [Clock3, "Respite Care", "Flexible relief for family members who need time to rest, work, or handle other responsibilities."],
   [Car, "Transportation Assistance", "Help coordinating and accompanying clients to appointments, errands, and essential outings."]
 ];
 
@@ -56,7 +56,6 @@ function Header() {
           <a href="#services" onClick={close}>Services</a>
           <a href="#about" onClick={close}>About</a>
           <a href="#intake" onClick={close}>Patient Intake</a>
-          <a href="#careers" onClick={close}>Careers</a>
           <a href="#contact" onClick={close}>Contact</a>
           <a className="portal-link" href={OS_URL} target="_blank" rel="noreferrer">Staff Login</a>
           <a className="nav-cta" href="#intake" onClick={close}>Get Started</a>
@@ -79,12 +78,12 @@ function Hero() {
         </div>
         <div className="hero-trust">
           <span><Check /> Personalized support</span>
-          <span><Check /> Dependable caregivers</span>
+          <span><Check /> Dependable care</span>
           <span><Check /> Clear family communication</span>
         </div>
       </div>
       <div className="hero-photo">
-        <img src="/hero-caregiver-woman-elderly.png" alt="Caregiver supporting an older adult at home" />
+        <img src="/hero-caregiver-woman-elderly.png" alt="Home care professional supporting an older adult" />
         <div className="hero-card">
           <HeartHandshake size={30} />
           <div><strong>Care starts with listening.</strong><span>We build support around each family's needs.</span></div>
@@ -122,7 +121,7 @@ function Services() {
           </article>
         ))}
       </div>
-      <p className="service-note">Transportation support is non-emergency assistance and is subject to caregiver availability and the services authorized for each client.</p>
+      <p className="service-note">Transportation support is non-emergency assistance and is subject to staff availability and the services authorized for each client.</p>
     </section>
   );
 }
@@ -169,10 +168,9 @@ function Process() {
   );
 }
 
-function SubmissionForm({ type }) {
+function SubmissionForm() {
   const [status, setStatus] = useState("");
   const [busy, setBusy] = useState(false);
-  const isCare = type === "care_request";
 
   async function submit(event) {
     event.preventDefault();
@@ -184,10 +182,10 @@ function SubmissionForm({ type }) {
       const response = await fetch("/api/submit", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...data, type })
+        body: JSON.stringify({ ...data, type: "care_request" })
       });
       if (!response.ok) throw new Error("Submission failed");
-      setStatus(isCare ? "Thank you. Your intake request has been submitted." : "Thank you. Your application has been submitted.");
+      setStatus("Thank you. Your intake request has been submitted.");
       form.reset();
     } catch {
       setStatus(`We could not submit the form. Please call ${PHONE} or email ${EMAIL}.`);
@@ -202,27 +200,17 @@ function SubmissionForm({ type }) {
         <label>Full name<input name="full_name" autoComplete="name" required /></label>
         <label>Phone number<input name="phone" type="tel" autoComplete="tel" required /></label>
         <label>Email address<input name="email" type="email" autoComplete="email" /></label>
-        {isCare ? (
-          <>
-            <label>Service needed<select name="service_needed" defaultValue="">
-              <option value="" disabled>Select a service</option>
-              {services.map(([, title]) => <option key={title}>{title}</option>)}
-              <option>Not sure yet</option>
-            </select></label>
-            <label>Preferred start date<input name="preferred_start_date" type="date" /></label>
-            <label>Preferred schedule<input name="experience" placeholder="Example: weekdays, mornings" /></label>
-          </>
-        ) : (
-          <>
-            <label>Caregiving experience<input name="experience" placeholder="Years or type of experience" /></label>
-            <label>Certifications<input name="certifications" placeholder="CNA, CPR, HHA, or other" /></label>
-            <label>Availability<input name="service_needed" placeholder="Days and times available" /></label>
-          </>
-        )}
+        <label>Service needed<select name="service_needed" defaultValue="">
+          <option value="" disabled>Select a service</option>
+          {services.map(([, title]) => <option key={title}>{title}</option>)}
+          <option>Not sure yet</option>
+        </select></label>
+        <label>Preferred start date<input name="preferred_start_date" type="date" /></label>
+        <label>Preferred schedule<input name="experience" placeholder="Example: weekdays, mornings" /></label>
       </div>
-      <label>{isCare ? "Tell us about the care needed" : "Tell us why you would be a strong caregiver"}<textarea name="message" rows="5" required /></label>
+      <label>Tell us about the care needed<textarea name="message" rows="5" required /></label>
       <label className="consent"><input type="checkbox" required /> <span>I confirm that the information provided is accurate and consent to being contacted by Hampton Healthcare Services.</span></label>
-      <button className="btn primary form-submit" type="submit" disabled={busy}>{busy ? "Submitting..." : isCare ? "Submit Patient Intake" : "Submit Application"}</button>
+      <button className="btn primary form-submit" type="submit" disabled={busy}>{busy ? "Submitting..." : "Submit Patient Intake"}</button>
       {status && <p className="form-status" role="status">{status}</p>}
       <small>Do not use this form for emergencies. Call 911 for urgent medical assistance.</small>
     </form>
@@ -238,25 +226,7 @@ function Intake() {
         <p>Share the basics and our team will contact you to learn more, answer questions, and discuss the appropriate next steps.</p>
         <div className="privacy-box"><ShieldCheck /><div><strong>Your information matters.</strong><span>Only provide details needed for an initial consultation. Avoid submitting highly sensitive medical or financial information through this form.</span></div></div>
       </div>
-      <SubmissionForm type="care_request" />
-    </section>
-  );
-}
-
-function Careers() {
-  return (
-    <section id="careers" className="section careers-section">
-      <div className="careers-copy">
-        <p className="eyebrow">Careers</p>
-        <h2>Bring compassion and reliability to our care team.</h2>
-        <p>We are building a team of dependable caregivers who communicate well, respect client dignity, and take pride in consistent service.</p>
-        <ul className="feature-list light">
-          <li><Check /> Meaningful work serving local families</li>
-          <li><Check /> Professional expectations and clear communication</li>
-          <li><Check /> Opportunities based on client needs and availability</li>
-        </ul>
-      </div>
-      <SubmissionForm type="caregiver_application" />
+      <SubmissionForm />
     </section>
   );
 }
@@ -267,7 +237,7 @@ function Contact() {
       <div>
         <p className="eyebrow">Contact Us</p>
         <h2>Talk with our family about yours.</h2>
-        <p>Contact Hampton Healthcare Services to discuss care needs, caregiver opportunities, or general questions.</p>
+        <p>Contact Hampton Healthcare Services to discuss care needs, schedule a consultation, or ask general questions.</p>
       </div>
       <div className="contact-cards">
         <a href={`tel:${PHONE.replace(/-/g, "")}`}><Phone /><span>Call us</span><strong>{PHONE}</strong></a>
@@ -283,7 +253,7 @@ function Footer() {
     <footer>
       <div className="footer-main">
         <div><img src="/logo-full.svg" alt="Hampton Healthcare Services" /><p>Dependable non-medical home care for families throughout Chicago's South Suburbs.</p></div>
-        <div><strong>Explore</strong><a href="#services">Services</a><a href="#intake">Patient Intake</a><a href="#careers">Careers</a></div>
+        <div><strong>Explore</strong><a href="#services">Services</a><a href="#about">About</a><a href="#intake">Patient Intake</a></div>
         <div><strong>Contact</strong><a href={`tel:${PHONE.replace(/-/g, "")}`}>{PHONE}</a><a href={`mailto:${EMAIL}`}>{EMAIL}</a><a href={OS_URL} target="_blank" rel="noreferrer">Hampton Healthcare OS</a></div>
       </div>
       <div className="footer-bottom"><small>© {new Date().getFullYear()} Hampton Healthcare Services. All rights reserved.</small><small>Non-medical home care services. Service availability varies by client needs and location.</small></div>
@@ -292,7 +262,7 @@ function Footer() {
 }
 
 function App() {
-  return <><Header /><main><Hero /><TrustStrip /><Services /><About /><Process /><Intake /><Careers /><Contact /></main><Footer /></>;
+  return <><Header /><main><Hero /><TrustStrip /><Services /><About /><Process /><Intake /><Contact /></main><Footer /></>;
 }
 
 createRoot(document.getElementById("root")).render(<App />);
